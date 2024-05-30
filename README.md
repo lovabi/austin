@@ -1,262 +1,264 @@
-Sure, let's delve deeper into the vocabulary and provide more details about their usage, including when and when not to use them, along with contexts where they are relevant. I’ll also add more necessary vocabulary for your interpreting role.
+Here is a set of questions aimed at assessing the basic understanding of clustering, including fundamental concepts like resources, clusters, and their components. Each question is assigned points to help evaluate the interviewee's grasp of basic clustering principles.
+
+### Basic Understanding Questions and Points
+
+1. **What is a cluster in the context of computing?**  
+   **Points:** 5  
+   *Expected Answer:*  
+   - A cluster is a group of interconnected computers that work together as a single system to ensure high availability, scalability, and reliability.
+
+2. **Define a resource in the context of failover clustering.**  
+   **Points:** 5  
+   *Expected Answer:*  
+   - A resource is any hardware, software, or service managed by the cluster to provide a specific function, such as a virtual machine, disk, or network service.
+
+3. **What is the primary purpose of failover clustering?**  
+   **Points:** 5  
+   *Expected Answer:*  
+   - To provide high availability and reliability by ensuring that services and applications continue to run even if one or more components fail.
+
+4. **Explain the role of the cluster service in failover clustering.**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - The cluster service manages the cluster configuration, monitors the health of resources, and facilitates failover and recovery processes.
+
+5. **What are the main components of a failover cluster?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - Nodes (servers), shared storage, network infrastructure, and the cluster service software.
+
+6. **Describe what a node is in a cluster.**  
+   **Points:** 5  
+   *Expected Answer:*  
+   - A node is an individual server that is part of a cluster, contributing its resources to the cluster's overall capacity.
+
+7. **What is a quorum in the context of failover clustering?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - Quorum is a voting mechanism used to ensure that the cluster has enough votes to remain operational, preventing split-brain scenarios.
+
+8. **How does a failover process work in a cluster?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - If a node or resource fails, the cluster service detects the failure and automatically transfers the workload to another healthy node, ensuring continuous availability.
+
+9. **What is the purpose of a cluster shared volume (CSV)?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - CSVs provide a shared storage area accessible by all nodes in the cluster, allowing multiple nodes to read and write to the same disk simultaneously.
+
+10. **What are the benefits of using a failover cluster?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - High availability, improved reliability, load balancing, and scalability.
+
+11. **What is the role of a witness disk or file share in a cluster quorum?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - A witness disk or file share acts as an additional vote in the quorum to help the cluster maintain majority and remain operational, especially in scenarios with an even number of nodes.
+
+12. **Explain the concept of 'failback' in failover clustering.**  
+    **Points:** 5  
+    *Expected Answer:*  
+    - Failback is the process of returning services to their original node once it becomes available again after a failure.
+
+13. **What is cluster validation, and why is it important?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Cluster validation is a set of tests that verify the hardware and software configurations are suitable for a failover cluster, ensuring reliability and supportability.
+
+14. **Describe the difference between active-passive and active-active clustering.**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Active-passive: One node is active while the other(s) are on standby.
+    - Active-active: All nodes are active and share the workload, providing better resource utilization.
+
+15. **What is the purpose of heartbeat communication in a cluster?**  
+    **Points:** 5  
+    *Expected Answer:*  
+    - Heartbeat communication is used by cluster nodes to monitor each other's health and status, ensuring timely detection of node failures.
+
+16. **What does the term 'split-brain' mean in the context of clustering?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Split-brain occurs when there is a communication failure between cluster nodes, causing them to operate independently and potentially leading to data inconsistencies.
+
+17. **What is a cluster-aware application, and why is it important?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - A cluster-aware application is designed to work seamlessly within a clustered environment, supporting failover and recovery mechanisms to ensure high availability.
+
+18. **How do you add a new node to an existing cluster?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Use the Failover Cluster Manager or PowerShell cmdlets to add the new node, then validate and configure it to join the existing cluster.
+
+19. **What is the significance of cluster nodes having access to shared storage?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Shared storage ensures that all nodes can access the same data, which is essential for maintaining data consistency and supporting failover processes.
+
+20. **How does the cluster service handle network partition scenarios?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - The cluster service uses quorum and heartbeats to determine node availability and prevent split-brain scenarios by ensuring only a majority of nodes can operate the cluster resources.
+
+### Total Points: 200
+
+These questions cover fundamental clustering concepts, ensuring that the interviewee has a solid basic understanding of what clusters are, how they function, and why they are important in providing high availability and reliability in IT environments.
+
+Here is a set of questions to assess the interviewee's understanding of the article on how Failover Clustering recovers from unresponsive resources. Each question is assigned points based on its complexity and depth of understanding required.
+
+### Questions and Points
+
+1. **Describe the roles of the 'LooksAlive' and 'IsAlive' checks in Failover Clustering.**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - LooksAlive: A quick, lightweight health check performed every 5 seconds by default to see if the resource appears to be functioning.
+   - IsAlive: A more comprehensive health check performed every 60 seconds by default to confirm the resource is indeed functioning properly.
+
+2. **What happens when a resource fails the 'LooksAlive' check?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - RHS performs a more comprehensive 'IsAlive' check immediately to verify the resource's health.
+
+3. **Explain what the 'DeadlockTimeout' property is and how it is used in Failover Clustering.**  
+   **Points:** 15  
+   *Expected Answer:*  
+   - DeadlockTimeout is the period RHS waits for a resource to respond to an entry point call before taking recovery action. The default is 5 minutes (300,000 milliseconds). It can be modified using PowerShell commands.
+
+4. **What are the steps Failover Clustering takes when a resource becomes unresponsive and doesn't respond within the DeadlockTimeout period?**  
+   **Points:** 20  
+   *Expected Answer:*  
+   - RHS waits for the DeadlockTimeout period.
+   - If no response, Cluster Service terminates the RHS process.
+   - Cluster Service waits for DeadlockTimeout x 4 for RHS to terminate.
+   - If RHS does not terminate, NetFT bugchecks the node to force failover and recovery.
+
+5. **How does Failover Clustering manage the impact of terminating the RHS process when multiple resources share the same RHS process?**  
+   **Points:** 15  
+   *Expected Answer:*  
+   - If one resource causes an RHS crash, all resources in that RHS process are restarted.
+   - The misbehaving resource is marked with SeparateMonitor to run in its own RHS process to prevent future issues.
+
+6. **What improvements were introduced in Windows Server 2012 to mitigate the impact of non-responsive resource recovery?**  
+   **Points:** 20  
+   *Expected Answer:*  
+   - Resource Re-attach: Allows healthy resources to re-attach to the new RHS process without being restarted.
+   - Isolation of Core Resources: Segments resources into multiple RHS processes to prevent application resource deadlocks from impacting core cluster functionality.
+
+7. **Detail the steps you would take to troubleshoot an RHS recovery event.**  
+   **Points:** 20  
+   *Expected Answer:*  
+   - Open Event Viewer and look for Event ID 1230.
+   - Identify the date/time, resource name, and resource type.
+   - Generate the cluster log with Get-ClusterLog cmdlet.
+   - Open the Cluster.log file and find the point of failure.
+   - Identify the entry point being called and understand what it was attempting to do.
+   - Investigate the underlying component causing the issue.
+
+8. **What is the impact of enabling the SeparateMonitor property for a resource?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - Resources run in their own dedicated RHS process, which consumes more system resources but isolates misbehaving resources to prevent them from affecting others.
+
+9. **Explain the role of the 'Get-ClusterLog –UseLocalTime' cmdlet in troubleshooting Failover Clustering issues.**  
+   **Points:** 5  
+   *Expected Answer:*  
+   - It generates the cluster log in local time, making it easier to correlate with event logs for troubleshooting.
+
+10. **What does Event ID 1146 signify in the context of RHS recovery?**  
+    **Points:** 5  
+    *Expected Answer:*  
+    - Indicates that the RHS process stopped unexpectedly, usually associated with the recovery of a crashed or deadlocked resource.
+
+### Total Points: 130
+
+The points system helps gauge the depth of the interviewee's understanding and their ability to explain complex concepts clearly.
+
+Here are additional questions to further assess the interviewee's knowledge of failover clustering, specifically focusing on deeper technical understanding and real-world application of concepts:
+
+### Additional Questions and Points
+
+1. **Explain the difference between 'Physical Disk' resources and 'Virtual Machine' resources in the context of failover clustering.**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - Physical Disk resources manage storage volumes used by the cluster, ensuring data availability and redundancy.
+   - Virtual Machine resources control clustered VMs, managing their start, stop, and health checks.
+
+2. **How would you manually configure a resource to run in its own dedicated RHS process? Provide the PowerShell command and explain its impact.**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - Use the command `(Get-ClusterResource "Resource Name").SeparateMonitor = 1`.
+   - This isolates the resource in its own RHS process, reducing the risk of it affecting other resources if it becomes unresponsive.
+
+3. **What are the implications of setting a very short DeadlockTimeout value for a critical resource?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - A very short DeadlockTimeout might cause the RHS process to terminate too quickly, leading to unnecessary resource restarts and potential instability in the cluster.
+
+4. **Describe the steps the cluster service takes if the RHS process does not terminate within the extended DeadlockTimeout period (20 minutes).**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - The cluster service will call NetFT to bugcheck the node, forcing a failover and recovery to ensure overall cluster health.
+
+5. **What are some common causes for a resource to fail an 'IsAlive' check, and how would you troubleshoot them?**  
+   **Points:** 15  
+   *Expected Answer:*  
+   - Causes: Network issues, storage I/O problems, resource DLL bugs.
+   - Troubleshooting: Check network connectivity, verify storage health, review event logs and cluster logs for errors, and analyze user-mode dumps if necessary.
+
+6. **How does the 'Resource Re-attach' feature in Windows Server 2012 improve failover clustering behavior compared to earlier versions?**  
+   **Points:** 15  
+   *Expected Answer:*  
+   - Allows healthy resources to re-attach to a new RHS process without being restarted, minimizing the impact on cluster services and reducing downtime.
+
+7. **What is the role of NetFT in failover clustering, and how does it interact with the cluster service during a node bugcheck?**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - NetFT (Network Fault Tolerant) handles network communications and failover decisions. During a bugcheck, it forces a node to failover to ensure cluster continuity.
+
+8. **Explain how the 'Get-ClusterLog' cmdlet is used in diagnosing cluster issues and provide an example command with the '-UseLocalTime' option.**  
+   **Points:** 10  
+   *Expected Answer:*  
+   - The cmdlet generates detailed logs of cluster activity, useful for troubleshooting. Example: `Get-ClusterLog -UseLocalTime`.
+
+9. **What would be your approach to investigating a recurring unresponsive resource issue in a cluster?**  
+   **Points:** 15  
+   *Expected Answer:*  
+   - Review event logs for patterns.
+   - Generate and analyze cluster logs.
+   - Isolate the resource using SeparateMonitor.
+   - Update or patch resource DLLs.
+   - Consult Microsoft support if necessary.
+
+10. **Describe how the isolation of core resources in multiple RHS processes enhances cluster stability.**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Segregates critical resources into separate RHS processes, ensuring that application resource issues do not impact core cluster services, enhancing overall stability.
+
+11. **What is the significance of the STOP 0x9E bugcheck code in the context of failover clustering, and how should it be handled?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Indicates a severe issue with the RHS process failing to terminate. Handle by investigating resource health, reviewing logs, and potentially involving hardware checks or vendor support.
+
+12. **How can you configure debugging for the RHS process to generate more detailed information during a deadlock? Provide the relevant registry keys and values.**  
+    **Points:** 15  
+    *Expected Answer:*  
+    - Configure by setting the registry DWORD `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Failover Clusters\DebugBreakOnDeadlock` to `3`.
+    - For Windows Server 2012 R2 and later: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ClusSvc\Parameters\DebugBreakOnDeadlock` to `3`.
+
+13. **Discuss the importance of resource DLLs in failover clustering and what actions you would take if a resource DLL is suspected to be the cause of a resource failure.**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Resource DLLs manage the interactions between the cluster service and resources. If suspected, review logs, update or patch the DLL, and potentially replace or reconfigure the resource.
+
+14. **What are the potential risks of manually modifying cluster resource properties, and how can you mitigate them?**  
+    **Points:** 10  
+    *Expected Answer:*  
+    - Risks include resource instability, unintended failovers, and cluster downtime. Mitigate by thoroughly testing changes in a staging environment, documenting modifications, and applying changes during maintenance windows.
+
+### Total Points for Additional Questions: 180
+
+These additional questions aim to deepen the interviewee's understanding of failover clustering, focusing on practical application, troubleshooting, and advanced configuration.
 
-### Legal Terms Expanded
-
-1. **Power of Attorney (Ủy quyền)**
-   - **Usage**: Used when someone authorizes another person to act on their behalf in legal, financial, or personal matters.
-   - **Context**: Often used in legal documents, especially in situations where someone cannot be present to handle their affairs due to health issues or being abroad.
-   - **When to Use**: When granting legal authority to someone else.
-   - **When Not to Use**: Should not be used interchangeably with general authorization as it specifically involves legal empowerment.
-
-2. **Grantor (Người ủy quyền)**
-   - **Usage**: Refers to the person who creates a power of attorney.
-   - **Context**: In legal documents delegating authority.
-   - **When to Use**: In the context of legal rights and powers.
-   - **When Not to Use**: Should not be used to refer to someone giving informal advice or instructions.
-
-3. **Grantee (Người được ủy quyền)**
-   - **Usage**: The person who is granted the power of attorney.
-   - **Context**: Legal settings where responsibilities and rights are assigned.
-   - **When to Use**: Specifically in legal documentation.
-   - **When Not to Use**: Should not be confused with general recipients of gifts or non-legal favors.
-
-4. **Notary Public (Công chứng viên)**
-   - **Usage**: A licensed public officer who verifies the authenticity of signatures and documents.
-   - **Context**: Essential in the processing of estates, deeds, powers of attorney, and international business documents.
-   - **When to Use**: When a document requires legal authentication.
-   - **When Not to Use**: When informal verification is sufficient.
-
-5. **Affidavit (Lời khai bằng văn bản)**
-   - **Usage**: A written statement made under oath.
-   - **Context**: Used in court or in situations where legal proof or a declaration is required.
-   - **When to Use**: In legal proceedings or when formal statement is necessary.
-   - **When Not to Use**: Should not be used for informal or unofficial declarations.
-
-### Additional Legal and Real Estate Terms
-
-6. **Easement (Quyền sử dụng)**
-   - **Usage**: The right to use the property of another for a specific purpose.
-   - **Context**: Often related to the use of a path or utility running through someone else's property.
-   - **When to Use**: In real estate dealings and land use agreements.
-   - **When Not to Use**: Should not be used to describe full property ownership rights.
-
-7. **Foreclosure (Tịch thu)**
-   - **Usage**: The action of taking possession of a mortgaged property when the mortgagor fails to keep up their mortgage payments.
-   - **Context**: In banking and real estate when discussing default on payments.
-   - **When to Use**: In the context of debt settlement and legal recovery of property.
-   - **When Not to Use**: Should not be used in contexts unrelated to debt or legal recovery.
-
-8. **Covenant (Điều khoản ràng buộc)**
-   - **Usage**: A clause in a contract or agreement which requires or prevents certain actions on the part of the contract's signatories.
-   - **Context**: Common in real estate deeds and lease agreements.
-   - **When to Use**: When defining obligations or restrictions in a contract.
-   - **When Not to Use**: Should not be used casually or outside of contractual discussions.
-
-### Usage in Context
-
-For example, when discussing the power of attorney at a notary office, you might explain:
-
-- **Power of Attorney**: "The power of attorney document authorizes the grantee to act on the grantor's behalf, managing the sale or maintenance of the apartment."
-- **Notary Public**: "The notary public will verify the signatures on this document to ensure its legal validity."
-- **Affidavit**: "You may be required to sign an affidavit stating that you are willingly granting power of attorney to your wife."
-
-Each term has its place in the legal and real estate fields, and using them correctly will ensure clear and precise communication, which is vital in your role as an interpreter.
-Certainly! Let's use the terms in contextually relevant sentences that you might encounter or need to interpret in your role. These examples should help clarify the proper use of each term, especially within legal and notary settings related to real estate and power of attorney documents.
-
-### Legal Terms in Sentences
-
-1. **Power of Attorney**
-   - "Please review the power of attorney carefully to ensure all your rights and responsibilities are clearly outlined."
-
-2. **Grantor**
-   - "The grantor has specified in the document that the grantee can make decisions regarding the sale of the property."
-
-3. **Grantee**
-   - "As the grantee, you have the authority to manage the financial transactions for the apartment as described in this power of attorney."
-
-4. **Notary Public**
-   - "The notary public must witness your signature to make the power of attorney legally binding."
-
-5. **Affidavit**
-   - "The affidavit, stating that you understand and agree to the terms, must be signed in the presence of a notary public."
-
-6. **Witness**
-   - "We need a witness present when signing these documents to comply with legal requirements."
-
-7. **Consent**
-   - "The document cannot be processed without the explicit consent of both parties involved in the agreement."
-
-### Additional Legal and Real Estate Terms in Sentences
-
-8. **Easement**
-   - "The property deed includes an easement that allows the neighboring property to use the driveway for access."
-
-9. **Foreclosure**
-   - "If the mortgage payments are not made, the bank may initiate foreclosure proceedings to reclaim the property."
-
-10. **Covenant**
-   - "The lease contains a covenant that prohibits tenants from making alterations to the structure of the apartment without prior approval."
-
-11. **Title**
-   - "Before finalizing the sale, the lawyer will check the title to ensure there are no liens against the property."
-
-12. **Deed**
-   - "The deed transfer from the seller to the buyer will be executed once all payments are completed."
-
-13. **Mortgage**
-   - "The couple discussed their budget to determine how much they could afford before taking on a mortgage for the new house."
-
-14. **Lease**
-   - "The terms of the lease agreement include a clause for yearly rent escalation, which both parties have agreed upon."
-
-15. **Encumbrance**
-   - "Before purchasing the property, it's important to check for any encumbrances that may affect your ownership rights."
-
-16. **Appraisal**
-   - "The bank requires an appraisal of the property to determine the amount they will lend to the buyer."
-
-Using these sentences, you can form a better understanding of how each term fits into the broader context of real estate and legal transactions. This will aid in ensuring accurate and effective communication when interpreting between parties.
-For the Export/Import model, the steps to implement the scenario are:
-
-1. On the remote machine, obtain the "whereabouts" of the transaction manager of that 
-
-machine – an interface pointer to ITransactionImportWhereaboutsFor the Export/Import model, the steps to implement the scenario are:
-
-1. On the remote machine, obtain the "whereabouts" of the transaction manager of that 
-
-machine – an interface pointer to ITransactionImportWhereaboutsCertainly! For your role as an interpreter dealing with legal documents, especially in the context of real estate and power of attorney, understanding a broader range of related terms will be essential. Here's a list of additional legal and real estate terms along with a brief definition for each:
-
-### Legal Terms
-
-1. **Contract (Hợp đồng)**
-   - A legally binding agreement between two or more parties.
-
-2. **Amendment (Sửa đổi)**
-   - A change or addition made to the terms of an agreement or contract.
-
-3. **Liability (Trách nhiệm pháp lý)**
-   - Legal responsibility for one's actions or inactions.
-
-4. **Execution (Thi hành)**
-   - The act of signing a legal document.
-
-5. **Jurisdiction (Thẩm quyền tài phán)**
-   - The authority given to a legal body to administer justice within a defined field of responsibility.
-
-6. **Authentication (Xác thực)**
-   - The process of verifying the legality and validity of a document.
-
-7. **Compliance (Tuân thủ)**
-   - Adherence to laws, regulations, and guidelines.
-
-8. **Due Diligence (Thẩm định kỹ càng)**
-   - A comprehensive appraisal of a business undertaken by a prospective buyer, particularly to establish its assets and liabilities and evaluate its commercial potential.
-
-### Real Estate Terms
-
-9. **Zoning (Quy hoạch)**
-   - Regulations governing the use of land and the types of buildings allowed.
-
-10. **Equity (Vốn chủ sở hữu)**
-    - The value of an owner's interest in property, after subtracting the amount of any liens or mortgages.
-
-11. **Lien (Quyền đòi nợ)**
-    - A right to keep possession of property belonging to another person until a debt owed by that person is discharged.
-
-12. **Escrow (Tài khoản ký quỹ)**
-    - An arrangement where an independent party holds money or property until a particular condition has been met (e.g., the fulfillment of a purchase agreement).
-
-13. **Fixture (Trang thiết bị cố định)**
-    - A piece of equipment or furniture which is fixed in position in a property.
-
-14. **Real Estate Agent (Nhà môi giới bất động sản)**
-    - A person whose business is to arrange the selling, renting, or management of homes, land, and buildings for their owners.
-
-15. **Property Management (Quản lý bất động sản)**
-    - The operation, control, maintenance, and oversight of real estate and physical property.
-
-16. **Closing (Hoàn tất giao dịch)**
-    - The final procedure in a real estate transaction, where the contract is formally signed and the property is transferred from the seller to the buyer.
-
-These terms provide a solid foundation for dealing with the intricacies of legal and real estate contexts. Familiarity with these will enhance your ability to interpret accurately and effectively in your new role.  
-Absolutely! Let's expand your vocabulary with more sets tailored to your role, focusing on various aspects of legal proceedings, real estate transactions, and general business terminology. Understanding these terms will greatly enhance your ability to interpret effectively across different scenarios.
-
-### Set 1: Legal Proceedings
-
-1. **Subpoena (Trát hầu tòa)**
-   - A writ ordering a person to attend a court.
-
-2. **Affirmation (Xác nhận)**
-   - A formal declaration by a person who declines taking an oath, often used in court or in sworn statements.
-
-3. **Injunction (Lệnh cấm)**
-   - A judicial order forcing a person or entity to refrain from doing something.
-
-4. **Arbitration (Trọng tài)**
-   - A method of dispute resolution used as an alternative to litigation, where the parties involved use an arbitrator to settle their dispute.
-
-5. **Deposition (Lời khai)**
-   - A witness's sworn out-of-court testimony.
-
-6. **Litigation (Kiện tụng)**
-   - The process of taking legal action in court to enforce or defend a right.
-
-7. **Settlement (Giải quyết)**
-   - An agreement reached between parties in a lawsuit as a resolution outside of court.
-
-8. **Verdict (Phán quyết)**
-   - The decision of a jury or judge that concludes a case.
-
-### Set 2: Real Estate Transactions
-
-1. **Assessment (Đánh giá)**
-   - The valuation of property for the purpose of taxation.
-
-2. **Deed Restriction (Hạn chế quyền sử dụng đất)**
-   - A condition written into a property's deed that limits the use of the real estate.
-
-3. **Homeowners Association (HOA) (Hiệp hội chủ nhà)**
-   - An organization in a subdivision, planned community, or condominium that makes and enforces rules for the properties within its jurisdiction.
-
-4. **Landlord (Chủ nhà)**
-   - The owner of rental property who leases it to others.
-
-5. **Tenant (Người thuê nhà)**
-   - A person who occupies land or property rented from a landlord.
-
-6. **Eviction (Trục xuất)**
-   - The legal process by which a landlord may remove a tenant from rental property.
-
-7. **Forebearance (Hoãn)**
-   - An agreement between a lender and a borrower to delay a foreclosure.
-
-8. **Conveyancing (Chuyển nhượng quyền sử dụng đất)**
-   - The legal process of transferring property from one owner to another.
-
-### Set 3: Business and Finance
-
-1. **Merger (Sáp nhập)**
-   - The combination of two companies into a single entity.
-
-2. **Acquisition (Mua lại)**
-   - A corporate action where one company purchases a controlling interest in another company.
-
-3. **Divestiture (Thoái vốn)**
-   - The process of selling an asset for financial, ethical, or political objectives.
-
-4. **Equity Financing (Tài trợ bằng vốn chủ sở hữu)**
-   - The method of raising capital by selling company shares.
-
-5. **Debt Financing (Tài trợ bằng nợ)**
-   - Borrowing funds that are to be repaid over time with interest.
-
-6. **Leverage (Đòn bẩy tài chính)**
-   - The use of various financial instruments or borrowed capital to increase the potential return of an investment.
-
-7. **Liquidation (Thanh lý)**
-   - The process of bringing a business to an end and distributing its assets to claimants.
-
-8. **Insolvency (Phá sản)**
-   - A financial state in which a person or entity cannot meet their debt obligations.
-
-These terms cover a wide range of situations and topics that you may encounter in your interpreting work, providing you with the tools needed to communicate effectively and professionally in various contexts.
